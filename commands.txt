@@ -1,0 +1,26 @@
+user alice --skills=java,ml,linux --exp=2
+job Backend_Dev --company=VK --tags=java,backend,linux --exp=1
+user alice --skills=java,ml,linux --exp=2
+user-list
+job Backend_Dev --company=VK --tags=java,backend,linux --exp=1
+history
+job-list
+history
+job-list
+user alice --skills=java,ml,linux --exp=2
+user bob --skills=java --exp=10
+user fred --skills=linux,c++ --exp=10
+user piter --skills=c,python --exp=10
+user john --skills=c --exp=10
+user mary --skills=c --exp=10
+job Backend_Dev --company=VK --tags=java,backend,linux --exp=1
+stat --match 1
+user alice --skills=java,ml,linux --exp=2
+job Backend_Dev --company=VK --tags=java,backend,linux --exp=1
+job-list
+stat --match 2
+user alice --skills=java,ml,linux --exp=2
+job Backend_Dev --company=VK --tags=java,backend,linux --exp=1
+job Data_Scientist --company=YA --tags=ml,python,linux --exp=1
+stat --match 2
+user-list
