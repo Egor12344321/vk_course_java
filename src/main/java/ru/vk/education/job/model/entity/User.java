@@ -1,7 +1,10 @@
 package ru.vk.education.job.model.entity;
 
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 public class User {
     private final String name;
@@ -39,7 +42,7 @@ public class User {
         return skills.contains(skill);
     }
 
-    int getExperience() {
+    public int getExperience() {
         return experience;
     }
 

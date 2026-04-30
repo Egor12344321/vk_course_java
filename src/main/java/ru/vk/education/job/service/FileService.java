@@ -1,8 +1,12 @@
 package ru.vk.education.job.service;
 
+import org.springframework.stereotype.Service;
+
 import java.io.*;
 import java.util.*;
 
+
+@Service
 public class FileService {
     private static final String COMMANDS_FILE = "commands.txt";
 

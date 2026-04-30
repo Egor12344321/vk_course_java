@@ -1,6 +1,10 @@
 package ru.vk.education.job.model.entity;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Set;
+
+
 
 public class Job {
     private final String title;
@@ -18,6 +22,12 @@ public class Job {
     public String getTitle() {
         return title;
     }
+
+    public String getCompany(){return company;}
+
+    public Set<String> getTags(){return tags;}
+
+    public int getRequiredExperience(){return requiredExperience;}
 
     public String toString() {
         return title + " at " + company;

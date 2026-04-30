@@ -1,10 +1,13 @@
 package ru.vk.education.job.repository;
 
+import org.springframework.stereotype.Repository;
 import ru.vk.education.job.model.entity.User;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+
+@Repository
 public class UserRepository {
     private final Map<String, User> users = new HashMap<>();
 
