@@ -1,13 +1,11 @@
 package ru.vk.education.job.service;
 
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.stereotype.Service;
 import ru.vk.education.job.model.dto.UserCreateRequest;
 import ru.vk.education.job.model.dto.UserResponse;
 import ru.vk.education.job.model.entity.User;
 import ru.vk.education.job.repository.UserRepository;
 
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -24,10 +22,10 @@ public class UserService {
 
     public UserResponse addUser(UserCreateRequest userCreateRequest) {
         User user = mapperService.mapFromUserCreateRequestToEntity(userCreateRequest);
-        if (userRepository.contains(user.getName())) {
+        if (userRepository.existsByName(user.getName())) {
             throw new IllegalArgumentException("Пользователь с таким именем уже существует");
         }
-        userRepository.add(user);
+        userRepository.save(user);
 
         return mapperService.mapFromUserEntityToResponse(user);
     }
@@ -41,7 +39,7 @@ public class UserService {
     }
 
     public List<UserResponse> getAllUsers() {
-        return userRepository.getAll().stream().map(mapperService::mapFromUserEntityToResponse).toList();
+        return userRepository.findAll().stream().map(mapperService::mapFromUserEntityToResponse).toList();
     }
 
     public List<UserResponse> getAllUsersSorted() {
@@ -49,7 +47,7 @@ public class UserService {
     }
 
     public boolean userExists(String name) {
-        return userRepository.contains(name);
+        return userRepository.existsByName(name);
     }
 
 

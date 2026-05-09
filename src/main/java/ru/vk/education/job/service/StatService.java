@@ -3,8 +3,6 @@ package ru.vk.education.job.service;
 import org.springframework.stereotype.Service;
 import ru.vk.education.job.model.dto.JobResponse;
 import ru.vk.education.job.model.dto.UserResponse;
-import ru.vk.education.job.model.entity.Job;
-import ru.vk.education.job.model.entity.User;
 import ru.vk.education.job.repository.JobRepository;
 import ru.vk.education.job.repository.UserRepository;
 
@@ -33,7 +31,7 @@ public class StatService {
 
     public List<UserResponse> getUsersByMinMatchCount(int minMatch) {
         return userRepository.getAllSorted().stream()
-                .filter(user -> user.getMatchCount(jobRepository.getAll()) >= minMatch)
+                .filter(user -> user.getMatchCount(jobRepository.findAll()) >= minMatch)
                 .map(mapperService::mapFromUserEntityToResponse)
                 .toList();
     }

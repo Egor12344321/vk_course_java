@@ -6,7 +6,6 @@ import ru.vk.education.job.model.dto.JobResponse;
 import ru.vk.education.job.model.entity.Job;
 import ru.vk.education.job.repository.JobRepository;
 
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -22,10 +21,10 @@ public class JobService {
 
     public JobResponse addJob(JobCreateRequest jobRequest) {
         Job job = mapperService.mapFromJobCreateRequestToEntity(jobRequest);
-        if (jobRepository.contains(job.getTitle())) {
+        if (jobRepository.existsByTitle(job.getTitle())) {
             throw new IllegalArgumentException("Вакансия с таким названием уже существует");
         }
-        jobRepository.add(job);
+        jobRepository.save(job);
 
         return mapperService.mapFromJobEntityToResponse(job);
     }
@@ -33,7 +32,7 @@ public class JobService {
 
     public List<JobResponse> getAllJobs() {
 
-        return jobRepository.getAll().stream()
+        return jobRepository.findAll().stream()
                 .map(mapperService::mapFromJobEntityToResponse)
                 .toList();
     }
@@ -45,6 +44,6 @@ public class JobService {
     }
 
     public boolean jobExists(String title) {
-        return jobRepository.contains(title);
+        return jobRepository.existsByTitle(title);
     }
 }

@@ -2,7 +2,6 @@ package ru.vk.education.job.service;
 
 import org.springframework.stereotype.Service;
 import ru.vk.education.job.model.dto.JobResponse;
-import ru.vk.education.job.model.dto.UserResponse;
 import ru.vk.education.job.model.entity.Job;
 import ru.vk.education.job.model.entity.User;
 import ru.vk.education.job.repository.JobRepository;
@@ -31,7 +30,7 @@ public class SuggestService {
 
     public List<JobResponse> suggestJobsForUser(String username, int limit) {
         User user = mapperService.mapFromResponseToEntity(userService.getUserByName(username));
-        Collection<Job> allJobs = jobRepository.getAll();
+        Collection<Job> allJobs = jobRepository.findAll();
 
         return user.findSuitableJobs(allJobs, limit).stream()
                 .map(mapperService::mapFromJobEntityToResponse)
@@ -40,7 +39,7 @@ public class SuggestService {
 
     public JobResponse getBestJobForUser(String username) {
         User user = mapperService.mapFromResponseToEntity(userService.getUserByName(username));
-        Collection<Job> allJobs = jobRepository.getAll();
+        Collection<Job> allJobs = jobRepository.findAll();
 
         Job bestJob = user.getBestJobForUser(allJobs);
 

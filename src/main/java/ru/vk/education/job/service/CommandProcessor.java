@@ -106,7 +106,7 @@ public class CommandProcessor {
         if (parts.length < 2) return;
 
         String name = parts[1];
-        if (userRepository.contains(name)) return;
+        if (userRepository.existsByName(name)) return;
 
         Set<String> skills = new HashSet<>();
         int exp = 0;
@@ -125,7 +125,7 @@ public class CommandProcessor {
                 exp = Integer.parseInt(arg.substring("--exp=".length()));
             }
         }
-        userRepository.add(new User(name, skills, exp));
+        userRepository.save(new User(name, skills, exp));
     }
 
     private void handleUserList() {
@@ -138,7 +138,7 @@ public class CommandProcessor {
         if (parts.length < 2) return;
 
         String title = parts[1];
-        if (jobRepository.contains(title)) return;
+        if (jobRepository.existsByTitle(title)) return;
 
         String company = "";
         Set<String> tags = new HashSet<>();
@@ -161,7 +161,7 @@ public class CommandProcessor {
             }
         }
 
-        jobRepository.add(new Job(title, company, tags, exp));
+        jobRepository.save(new Job(title, company, tags, exp));
     }
 
     private void handleJobList() {
@@ -178,7 +178,7 @@ public class CommandProcessor {
 
         if (user == null) return;
 
-        List<Job> suggestions = user.findSuitableJobs(jobRepository.getAll(), 2);
+        List<Job> suggestions = user.findSuitableJobs(jobRepository.findAll(), 2);
 
         for (Job job : suggestions) {
             System.out.println(job.toString());
@@ -209,7 +209,7 @@ public class CommandProcessor {
 
             case "--match":
                 userRepository.getAllSorted().stream()
-                        .filter(user -> user.getMatchCount(jobRepository.getAll()) >= value)
+                        .filter(user -> user.getMatchCount(jobRepository.findAll()) >= value)
                         .forEach(System.out::println);
                 break;
 
