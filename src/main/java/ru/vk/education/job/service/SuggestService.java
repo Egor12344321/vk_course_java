@@ -15,22 +15,28 @@ public class SuggestService {
 
     private final UserRepository userRepository;
     private final JobRepository jobRepository;
-    private final UserService userService;
     private final MapperService mapperService;
 
     public SuggestService(UserRepository userRepository,
                           JobRepository jobRepository,
-                          UserService userService,
                           MapperService mapperService) {
         this.userRepository = userRepository;
         this.jobRepository = jobRepository;
-        this.userService = userService;
         this.mapperService = mapperService;
     }
 
     public List<JobResponse> suggestJobsForUser(String username, int limit) {
-        User user = mapperService.mapFromResponseToEntity(userService.getUserByName(username));
+        User user = userRepository.findByName(username);
+
+        if (user == null) {
+            return List.of();
+        }
+
         Collection<Job> allJobs = jobRepository.findAll();
+
+        if (allJobs == null || allJobs.isEmpty()) {
+            return List.of();
+        }
 
         return user.findSuitableJobs(allJobs, limit).stream()
                 .map(mapperService::mapFromJobEntityToResponse)
@@ -38,8 +44,17 @@ public class SuggestService {
     }
 
     public JobResponse getBestJobForUser(String username) {
-        User user = mapperService.mapFromResponseToEntity(userService.getUserByName(username));
+        User user = userRepository.findByName(username);
+
+        if (user == null) {
+            return null;
+        }
+
         Collection<Job> allJobs = jobRepository.findAll();
+
+        if (allJobs == null || allJobs.isEmpty()) {
+            return null;
+        }
 
         Job bestJob = user.getBestJobForUser(allJobs);
 
